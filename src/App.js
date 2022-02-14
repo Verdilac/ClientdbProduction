@@ -1,32 +1,34 @@
 import './App.css';
-import { BrowserRouter as Router,Route,Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from './Components/Home';
 import Login from './Components/Login';
 import ProtectedRoute from './Components/ProtectedRoute';
-import {UserAuthContextProvider} from "./Util/UserAuthContext"
+import { UserAuthContextProvider } from "./Util/UserAuthContext";
+import LoginForm from "./Components/LoginForm";
 
 
 
 function App() {
   return (
 
+    // <LoginForm />
     <Router>
 
       <UserAuthContextProvider>
         <Routes>
 
-          <Route path='/home' element={<ProtectedRoute><Home/></ProtectedRoute>} />
-          <Route path='/login' element={<Login/>} />
-          
+          <Route path='/home' element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path='/login' element={<Login />} />
 
-    </Routes>
+
+        </Routes>
 
       </UserAuthContextProvider>
 
-    
-          <div className="App">
-   
-          </div>
+
+      <div className="App">
+
+      </div>
     </Router>
 
   );
