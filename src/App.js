@@ -4,6 +4,8 @@ import Home from './Components/Home';
 import Login from './Components/Login';
 import ProtectedRoute from './Components/ProtectedRoute';
 import {UserAuthContextProvider} from "./Util/UserAuthContext"
+import PopUp from './Components/PopUp';
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 
 
@@ -17,6 +19,7 @@ function App() {
 
           <Route path='/home' element={<ProtectedRoute><Home/></ProtectedRoute>} />
           <Route path='/' element={<Login/>} />
+          <Route path='/popup' element={<PopUp/>} />
           <Route path='*' element={<Login/>}/>
           
 
