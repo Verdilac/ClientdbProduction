@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import '../App.css'
 import { Button, Form,Alert} from 'react-bootstrap'
 
-import PopUp from "./PopUp";
+
 
 export default function Login() {
 
@@ -77,12 +77,6 @@ export default function Login() {
             
        ) }
     </div>
-      
-
-
-            
-      
-
         </div>
 
         
