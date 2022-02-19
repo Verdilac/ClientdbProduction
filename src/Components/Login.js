@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserAuth } from '../Util/UserAuthContext';
-import 'bootstrap/dist/css/bootstrap.min.css'
-import '../App.css'
-import { Button, Form,Alert} from 'react-bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../App.css';
+import { Button, Form,Alert} from 'react-bootstrap';
 
 
 
