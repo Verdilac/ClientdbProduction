@@ -1,5 +1,5 @@
 import { db } from "../firebase";
-import { collection, getDocs, getDoc, addDoc, updateDoc, deleteDoc, doc } from "firebase/firestore";
+import { collection, getDocs, getDoc, addDoc, updateDoc, deleteDoc, doc,query,where,orderBy,limit, CollectionReference,startAt,endAt, startAfter} from "firebase/firestore";
 
 
 const bookCollectionRef = collection(db, "companies");
@@ -27,7 +27,9 @@ class BookDataService {
 
     // 4) Fetch All Books in db
     getAllBooks = () => {
-        return getDocs(bookCollectionRef);
+
+        const q = query(bookCollectionRef,limit(5))
+        return getDocs(q);
     };
 
     // 5) Fetch an individual book
@@ -35,6 +37,161 @@ class BookDataService {
         const bookDoc = doc(db, "companies", id);
         return getDoc(bookDoc);
     }
+
+    // 6) Filtering
+    // Filter = (companyName,country,city,district,street,postalCode,category,subCategory) => {
+
+    //     let q
+        
+    //     if(companyName !== ""){
+
+    //         if(category == ""){
+
+    //         q = query(bookCollectionRef,orderBy('name')
+    //      ,startAt(companyName)
+    //      ,endAt(companyName + '\uf8ff'))
+    //         }
+    //         else{
+    //             if(subCategory== ""){
+    //                  q = query(bookCollectionRef,orderBy('name')
+    //             ,startAt(companyName)
+    //             ,endAt(companyName + '\uf8ff'),where("category",'==',category))
+    //             }
+    //             else{
+    //                 q = query(bookCollectionRef,orderBy('name')
+    //                 ,startAt(companyName)
+    //                 ,endAt(companyName + '\uf8ff'),where("category",'==',category),where("subCategory",'==',subCategory))
+    //             }
+               
+    //         }
+
+    //     }
+    //     else{
+    //         if(category !== ""){
+    //             if(subCategory== ""){
+    //                      q = query(bookCollectionRef,orderBy('name')
+    //                 ,startAt(companyName)
+    //                 ,endAt(companyName + '\uf8ff'),where("category",'==',category))
+    //                 }
+    //                 else{
+    //                     q = query(bookCollectionRef,orderBy('name')
+    //                     ,startAt(companyName)
+    //                     ,endAt(companyName + '\uf8ff'),where("category",'==',category),where("subCategory",'==',subCategory))
+    //                 }
+    //             }
+  
+
+    //     }
+
+
+        
+    //     return getDocs(q);
+    //   }
+
+
+      
+      //testing methode
+
+      Filter = (companyName,country,city,district,street,postalCode,category,subCategory) => {
+
+
+        
+        let  q = query(bookCollectionRef)
+      
+        if(companyName !== ""){
+         q = query(q, where("name", "==", companyName))
+        }
+        if(country !== "")
+        {
+            q = query(q, where("country", "==", country))
+        }  
+        if(city !== ""){
+            q = query(q, where("city", "==", city))
+           }
+        if(district !== "")
+        {
+               q = query(q, where("district", "==", district))
+        }  
+
+        if(street !== "")
+        {
+               q = query(q, where("street", "==", street))
+        }  
+
+        if(postalCode !== "")
+        {
+               q = query(q, where("postalCode", "==", postalCode))
+        }  
+        if(category !== "")
+        {
+               q = query(q, where("category", "==", category))
+        }  
+        if(subCategory !== "")
+        {
+               q = query(q, where("subCategory", "==", subCategory))
+        }  
+   
+        q = query(q,limit(2))
+
+
+
+        return getDocs(q);
+      }
+
+
+      GetNext = (companyName,country,city,district,street,postalCode,category,subCategory,lastDoc) => {
+
+        let  q = query(bookCollectionRef)
+      
+        if(companyName !== ""){
+         q = query(q, where("name", "==", companyName))
+        }
+        if(country !== "")
+        {
+            q = query(q, where("country", "==", country))
+        }  
+        if(city !== ""){
+            q = query(q, where("city", "==", city))
+           }
+        if(district !== "")
+        {
+               q = query(q, where("district", "==", district))
+        }  
+
+        if(street !== "")
+        {
+               q = query(q, where("street", "==", street))
+        }  
+
+        if(postalCode !== "")
+        {
+               q = query(q, where("postalCode", "==", postalCode))
+        }  
+        if(category !== "")
+        {
+               q = query(q, where("category", "==", category))
+        }  
+        if(subCategory !== "")
+        {
+               q = query(q, where("subCategory", "==", subCategory))
+        }  
+
+
+            q = query(q,startAfter(lastDoc),limit(2));
+
+            return getDocs(q);
+
+      }
+
+
+
+
+        QueryMaker  = (feild,feildvalue)=>{
+        
+        const q = query(bookCollectionRef,orderBy('name','desc'))
+        return q 
+      }
+
 
 }
 

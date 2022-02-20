@@ -9,6 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 
+
 const BooksList = ({ getBookId }) => {
 
     // State to store all book records as an array
@@ -19,13 +20,49 @@ const BooksList = ({ getBookId }) => {
     const [subCategory, setSubCategory] = useState("");
 
 
+    //Filter States
+    const [companyName, setcompanyName] = useState("");
+    const [country, setcountry] = useState("");
+    const [city, setcity] = useState("");
+    const [district, setdistrict] = useState("");
+    const [street, setstreet] = useState("");
+   const [postalCode, setpostalCode] = useState("")
+   const [lastDoc, setlastDoc] = useState();
+
+   
+
+
+    //Filter Functions
+    const Filter = async () => {
+      //console.log(companyName,country,city,district,street,postalCode,category,subCategory);
+
+
+
+        const data = await BookDataService.Filter(companyName,country,city,district,street,postalCode,category,subCategory);
+        console.log(data.docs);
+        setlastDoc(data.docs[data.docs.length-1])
+        console.log("LAST DOC ",lastDoc)
+ 
+        setBooks(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    }
+
+    const LoadMore = async () => {
+        const data = await BookDataService.GetNext(companyName,country,city,district,street,postalCode,category,subCategory,lastDoc);
+        setlastDoc(data.docs[data.docs.length-1])
+        //setBooks(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        setBooks((books)=>[...books,...data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))])
+    }
+
+
     // 1) Fetch all books as the page is loaded (run only once)
     useEffect(() => {
         getBooks();
     }, []);
 
     const getBooks = async () => {
+        
         const data = await BookDataService.getAllBooks();
+        setlastDoc(data.docs[data.docs.length-1])
         console.log(data.docs);
         setBooks(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
@@ -35,6 +72,11 @@ const BooksList = ({ getBookId }) => {
         await BookDataService.deleteBook(id);
         getBooks();  // refresh after delete
     };
+
+
+
+
+
 
     return (
         <>
@@ -46,12 +88,14 @@ const BooksList = ({ getBookId }) => {
                             <Form.Control
                                 type="text"
                                 placeholder="Company Name"
+                                onChange={(e)=> {setcompanyName(e.target.value)}}
                             />
                         </Col>
                         <Col>
                             <Form.Control
                                 type="text"
                                 placeholder="Country"
+                                onChange={(e)=> {setcountry(e.target.value)}}
                             />
                         </Col>
                     </Row>
@@ -60,24 +104,28 @@ const BooksList = ({ getBookId }) => {
                             <Form.Control
                                 type="text"
                                 placeholder="City"
+                                onChange={(e)=> {setcity(e.target.value)}}
                             />
                         </Col>
                         <Col>
                             <Form.Control
                                 type="text"
                                 placeholder="District"
+                                onChange={(e)=> {setdistrict(e.target.value)}}
                             />
                         </Col>
                         <Col>
                             <Form.Control
                                 type="text"
                                 placeholder="Street"
+                                onChange={(e)=> {setstreet(e.target.value)}}
                             />
                         </Col>
                         <Col>
                             <Form.Control
                                 type="text"
                                 placeholder="Postal Code"
+                                onChange={(e)=> {setpostalCode(e.target.value)}}
                             />
                         </Col>
                     </Row>
@@ -93,7 +141,7 @@ const BooksList = ({ getBookId }) => {
                                     label="Category"
                                     onChange={(e) => { setCategory(e.target.value) }}
                                 >
-                                    <MenuItem value={"Eat"}>Eat</MenuItem>
+                                    <MenuItem value={"Eat"} >Eat</MenuItem>
                                     <MenuItem value={"Goods"}>Goods</MenuItem>
                                     <MenuItem value={"Repair and Construction"}>Repair and Construction</MenuItem>
                                     <MenuItem value={"Car Service"}>Car Service</MenuItem>
@@ -282,7 +330,7 @@ const BooksList = ({ getBookId }) => {
                     </Row>
                     <Row className='mt-3'>
                         <Col className="d-grid gap-2">
-                            <Button variant="success" type="Submit">
+                            <Button variant="success" type="button" onClick={(e)=>{Filter()}}>
                                 Filter
                             </Button>
                         </Col>
@@ -359,6 +407,12 @@ const BooksList = ({ getBookId }) => {
                     })}
                 </tbody>
             </Table>
+            <Button
+                                        variant="success"
+                                        onClick={(e) => LoadMore()}
+                                    >
+                                        Load More
+                                    </Button>
             {/* -------------- Table END -------------- */}
         </>
     );
