@@ -1,15 +1,11 @@
 import React from "react";
-<<<<<<< HEAD
-=======
 import { Button } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import FormTag from "./FormTag";
 import TableTag from "./TableTag";
-
->>>>>>> 144ef5c03e918ce97a29a7d99ac558d830b60798
 import { useNavigate } from "react-router";
 import { useUserAuth } from '../Util/UserAuthContext';
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+
 
 export default function Home() {
 
