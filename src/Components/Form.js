@@ -318,7 +318,7 @@ const AddBook = ({ id, setBookId }) => {
                                 <MenuItem value={"Fitness Centers"}>Fitness Centers</MenuItem>
                                 <MenuItem value={"Sections"}>Sections</MenuItem>
                                 <MenuItem value={"Other"}>Other</MenuItem>
-                            </Select>  : category === "Services" ? <Select
+                            </Select> : category === "Services" ? <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={subCategory}
@@ -331,7 +331,7 @@ const AddBook = ({ id, setBookId }) => {
                                 <MenuItem value={"Real Estate"}>Real Estate</MenuItem>
                                 <MenuItem value={"Legal services"}>Legal services</MenuItem>
                                 <MenuItem value={"Others"}>Others</MenuItem>
-                            </Select>  : category === "Special Stores" ? <Select
+                            </Select> : category === "Special Stores" ? <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 value={subCategory}
@@ -398,7 +398,7 @@ const AddBook = ({ id, setBookId }) => {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </InputGroup>
-                    </Form.Group>                   
+                    </Form.Group>
 
                     <Row className="mb-1">
                         <Form.Group as={Col} className="mb-3" controlId="formBookTitle">
