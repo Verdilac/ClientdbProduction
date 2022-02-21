@@ -9,6 +9,11 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 
+// MUI Imports
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+
 
 const BooksList = ({ getBookId }) => {
 
@@ -20,37 +25,54 @@ const BooksList = ({ getBookId }) => {
     const [subCategory, setSubCategory] = useState("");
 
 
-    //Filter States
+    // Filter States
     const [companyName, setcompanyName] = useState("");
     const [country, setcountry] = useState("");
     const [city, setcity] = useState("");
     const [district, setdistrict] = useState("");
     const [street, setstreet] = useState("");
-   const [postalCode, setpostalCode] = useState("")
-   const [lastDoc, setlastDoc] = useState();
+    const [postalCode, setpostalCode] = useState("")
+    const [lastDoc, setlastDoc] = useState();
 
-   
+    
+
+    // MUI
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
 
 
     //Filter Functions
     const Filter = async () => {
-      //console.log(companyName,country,city,district,street,postalCode,category,subCategory);
+        //console.log(companyName,country,city,district,street,postalCode,category,subCategory);
 
 
 
-        const data = await BookDataService.Filter(companyName,country,city,district,street,postalCode,category,subCategory);
+        const data = await BookDataService.Filter(companyName, country, city, district, street, postalCode, category, subCategory);
         console.log(data.docs);
-        setlastDoc(data.docs[data.docs.length-1])
-        console.log("LAST DOC ",lastDoc)
- 
+        setlastDoc(data.docs[data.docs.length - 1])
+        console.log("LAST DOC ", lastDoc)
+
         setBooks(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     }
 
     const LoadMore = async () => {
-        const data = await BookDataService.GetNext(companyName,country,city,district,street,postalCode,category,subCategory,lastDoc);
-        setlastDoc(data.docs[data.docs.length-1])
+        const data = await BookDataService.GetNext(companyName, country, city, district, street, postalCode, category, subCategory, lastDoc);
+        setlastDoc(data.docs[data.docs.length - 1])
         //setBooks(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        setBooks((books)=>[...books,...data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))])
+        setBooks((books) => [...books, ...data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))])
     }
 
 
@@ -60,9 +82,9 @@ const BooksList = ({ getBookId }) => {
     }, []);
 
     const getBooks = async () => {
-        
+
         const data = await BookDataService.getAllBooks();
-        setlastDoc(data.docs[data.docs.length-1])
+        setlastDoc(data.docs[data.docs.length - 1])
         console.log(data.docs);
         setBooks(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
@@ -88,14 +110,14 @@ const BooksList = ({ getBookId }) => {
                             <Form.Control
                                 type="text"
                                 placeholder="Company Name"
-                                onChange={(e)=> {setcompanyName(e.target.value)}}
+                                onChange={(e) => { setcompanyName(e.target.value) }}
                             />
                         </Col>
                         <Col>
                             <Form.Control
                                 type="text"
                                 placeholder="Country"
-                                onChange={(e)=> {setcountry(e.target.value)}}
+                                onChange={(e) => { setcountry(e.target.value) }}
                             />
                         </Col>
                     </Row>
@@ -104,28 +126,28 @@ const BooksList = ({ getBookId }) => {
                             <Form.Control
                                 type="text"
                                 placeholder="City"
-                                onChange={(e)=> {setcity(e.target.value)}}
+                                onChange={(e) => { setcity(e.target.value) }}
                             />
                         </Col>
                         <Col>
                             <Form.Control
                                 type="text"
                                 placeholder="District"
-                                onChange={(e)=> {setdistrict(e.target.value)}}
+                                onChange={(e) => { setdistrict(e.target.value) }}
                             />
                         </Col>
                         <Col>
                             <Form.Control
                                 type="text"
                                 placeholder="Street"
-                                onChange={(e)=> {setstreet(e.target.value)}}
+                                onChange={(e) => { setstreet(e.target.value) }}
                             />
                         </Col>
                         <Col>
                             <Form.Control
                                 type="text"
                                 placeholder="Postal Code"
-                                onChange={(e)=> {setpostalCode(e.target.value)}}
+                                onChange={(e) => { setpostalCode(e.target.value) }}
                             />
                         </Col>
                     </Row>
@@ -330,7 +352,7 @@ const BooksList = ({ getBookId }) => {
                     </Row>
                     <Row className='mt-3'>
                         <Col className="d-grid gap-2">
-                            <Button variant="success" type="button" onClick={(e)=>{Filter()}}>
+                            <Button variant="success" type="button" onClick={(e) => { Filter() }}>
                                 Filter
                             </Button>
                         </Col>
@@ -401,6 +423,25 @@ const BooksList = ({ getBookId }) => {
                                     >
                                         Delete
                                     </Button>
+                                    {/* -------------- Modal Form START -------------- */}
+                                    <Button onClick={(e) => { getBookId(doc.id); handleOpen() }}>Open modal</Button>
+                                    <Modal
+                                        open={open}
+                                        onClose={handleClose}
+                                        aria-labelledby="modal-modal-title"
+                                        aria-describedby="modal-modal-description"
+                                    >
+                                        <Box sx={style}>
+                                            <Typography id="modal-modal-title" variant="h6" component="h2">
+                                                Text in a modal
+                                            </Typography>
+                                            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                                            </Typography>
+                                        </Box>
+                                    </Modal>
+                                    {/* -------------- Modal Form END -------------- */}
+
                                 </td>
                             </tr>
                         );
@@ -408,11 +449,11 @@ const BooksList = ({ getBookId }) => {
                 </tbody>
             </Table>
             <Button
-                                        variant="success"
-                                        onClick={(e) => LoadMore()}
-                                    >
-                                        Load More
-                                    </Button>
+                variant="success"
+                onClick={(e) => LoadMore()}
+            >
+                Load More
+            </Button>
             {/* -------------- Table END -------------- */}
         </>
     );

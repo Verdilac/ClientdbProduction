@@ -4,6 +4,7 @@ import BooksList from './Table';
 import { Container, Navbar, Row, Col } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
+import { Link } from "react-router-dom";
 
 function FormTag() {
 
@@ -15,9 +16,11 @@ function FormTag() {
         setBookId(id);
     }
 
-    return (
-        
+    return ( 
+
         <Container style={{ width: "400px" }}>
+
+            <Link to="/home" className="btn btn-primary">Home</Link>
             <Row>
                 <Col>
                     <AddBook id={bookId} setBookId={setBookId} />
