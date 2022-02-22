@@ -18,8 +18,6 @@ function TableTag() {
     return (
 
         <Container>
-
-
             <Row>
                 <Col>
                     <BooksList getBookId={getBookIdHandler} />
