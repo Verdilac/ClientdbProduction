@@ -856,7 +856,7 @@ const BooksList = ({ getBookId }) => {
 
 
                                                     <div className="d-grid gap-2">
-                                                        <Button variant="primary" type="button" onClick={(e) => { handleClose(); handleEdit()}} >
+                                                        <Button variant="primary" type="button" onClick={(e) => { handleClose(); handleEdit() }} >
                                                             Add/ Update
                                                         </Button>
                                                     </div>

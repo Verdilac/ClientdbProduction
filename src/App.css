@@ -70,3 +70,9 @@ form {
 }
 
 /* -----1----- Form.js CSS END */
+
+/* -----2----- Home.js CSS START */
+.nav-component {
+  margin-right: 15px;
+}
+/* -----2----- Home.js CSS END */

@@ -1,10 +1,11 @@
 import '../App.css';
 import AddBook from './Form';
-import BooksList from './Table';
-import { Container, Navbar, Row, Col } from "react-bootstrap";
+import { Container, Navbar, Row, Col, Nav, Button } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
+import { useUserAuth } from '../Util/UserAuthContext';
 
 function FormTag() {
 
@@ -16,17 +17,49 @@ function FormTag() {
         setBookId(id);
     }
 
-    return ( 
+    // Handling Logout
+    const { logOut, user } = useUserAuth();
+    const navigate = useNavigate();
+    const handleLogout = async () => {
+        try {
+            await logOut();
+            navigate("/");
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
 
-        <Container style={{ width: "400px" }}>
+    return (
 
-            <Link to="/home" className="btn btn-primary">Home</Link>
-            <Row>
-                <Col>
-                    <AddBook id={bookId} setBookId={setBookId} />
-                </Col>
-            </Row>
-        </Container>
+        <>
+            {/* ------------- Navigation Bar START ------------- */}
+            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" sticky="top">
+                <Container>
+                    <Navbar.Brand>Company Dashboard</Navbar.Brand>
+                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                    <Navbar.Collapse id="responsive-navbar-nav">
+                        <Nav className="me-auto"></Nav>
+                        <Nav>
+                            <Navbar.Text className="nav-component">
+                                <b>Signed as: </b> {user.email}
+                            </Navbar.Text>
+                            <Link to="/home" className="btn btn-primary mr-2 nav-component">Home</Link>
+                            <Button onClick={handleLogout} className="nav-component">Logout</Button>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+            {/* ------------- Navigation Bar END ------------- */}
+
+            <Container style={{ width: "600px" }}>
+                <Row>
+                    <Col>
+                        <AddBook id={bookId} setBookId={setBookId} />
+                    </Col>
+                </Row>
+            </Container>
+        </>
+
     )
 }
 
