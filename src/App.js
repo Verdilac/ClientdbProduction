@@ -8,6 +8,7 @@ import { UserAuthContextProvider } from "./Util/UserAuthContext";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import TableTag from './Components/TableTag';
 import FormTag from './Components/FormTag';
+import EditModel from './Components/EditModel';
 
 
 
